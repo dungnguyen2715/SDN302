@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Quiz } from "../models/quiz.model";
 import { Question } from "../models/question.model";
+import { AuthRequest } from "../middlewares/authenticate";
 
 export const quizController = {
   // POST /quizzes - Tạo mới 1 Quiz trống hoặc kèm ID câu hỏi có sẵn
@@ -107,8 +108,9 @@ export const quizController = {
   },
 
   // POST /quizzes/:quizId/question - Tạo 1 câu hỏi mới tinh trực tiếp VÀO TRONG một Quiz (Yêu cầu số 4)
+  // POST /quizzes/:quizId/question
   addSingleQuestionToQuiz: async (
-    req: Request,
+    req: AuthRequest, // BƯỚC 1: Đổi type Request thành AuthRequest (giống hàm createQuestion)
     res: Response,
   ): Promise<void> => {
     try {
@@ -121,6 +123,7 @@ export const quizController = {
         options,
         keywords,
         correctAnswerIndex,
+        author: req.user._id, // BƯỚC 2: THÊM DÒNG NÀY VÀO!
       });
       const savedQuestion = await newQuestion.save();
 
@@ -140,7 +143,8 @@ export const quizController = {
         .status(201)
         .json({ message: "Question added to Quiz", quiz: updatedQuiz });
     } catch (error: any) {
-      res.status(500).json({ message: error.message });
+      // Nếu vẫn lỗi, backend sẽ trả về nguyên nhân cụ thể ở đây
+      res.status(500).json({ message: error.message }); 
     }
   },
 
