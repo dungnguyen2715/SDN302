@@ -13,7 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://simple-quiz-api.onrender.com"],
+    origin: ["http://localhost:5173", "sdn-302-eight.vercel.app"],
     credentials: true,
   }),
 );
