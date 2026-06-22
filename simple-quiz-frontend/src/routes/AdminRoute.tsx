@@ -2,6 +2,7 @@ import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import type { RootState } from "../app/store";
+import AdminNavbar from "../components/AdminNavbar";
 
 interface Props {
   children: React.ReactNode;
@@ -20,7 +21,12 @@ function AdminRoute({ children }: Props) {
     return <Navigate to="/quizzes" />;
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      <AdminNavbar />
+      {children}
+    </>
+  );
 }
 
 export default AdminRoute;

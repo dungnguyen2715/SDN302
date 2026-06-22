@@ -28,3 +28,13 @@ export const updateQuizAPI = async (
 
   return response.data;
 };
+
+// Thêm vào file adminQuizAPI.ts
+export const addSingleQuestionToQuizAPI = async (
+  quizId: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  questionData: any
+) => {
+  const response = await api.post(`/quizzes/${quizId}/question`, questionData);
+  return response.data;
+};
